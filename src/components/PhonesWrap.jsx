@@ -4,6 +4,8 @@ define(function (require, exports, module) {
   var {React} = require('module!../../../libReact/src/main');
   var PropTypes = React.PropTypes;
   var {DragSource} = require('../vendors/react-dnd');
+  var PhoneCard = require('jsx!../components/PhoneCard.jsx');
+
 
   var Types = {
     CARD: 'card'
@@ -35,31 +37,19 @@ define(function (require, exports, module) {
 
   let Phone = React.createClass({
     propTypes: {
-      groupPhones: PropTypes.object,
-      name: PropTypes.string,
-      number: PropTypes.string,
-      active: PropTypes.bool,
-      duration: PropTypes.number
+      phoneWrap: PropTypes.object
     },
     render() {
       const { isDragging, connectDragSource } = this.props;
 
 
-      each(this.props.groupPhones, (gp) => {
-        console.log(gp);
-      })
-
       return connectDragSource(
         <div className="phone-wrap">
-          <p>Name: {this.props.name}</p>
-
-          <p>Number: {this.props.number}</p>
-
-          <p>isActive: {this.props.active}</p>
-
-          <p>Ring for: {this.props.duration}</p>
-
-          <p>{isDragging && ' (and I am being dragged now)'}</p>
+          {
+            this.props.phoneWrap && each(this.props.phoneWrap.groupPhones, (gp) => {
+              return <PhoneCard phone={gp}/>
+            })
+          }
         </div>
       );
     }

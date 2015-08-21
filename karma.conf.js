@@ -1,9 +1,9 @@
-module.exports = function(config) {
+module.exports = function (config) {
 
-    var helper = require('../../tools/karma-helper')(config, __dirname);
+  var helper = require('../../tools/karma-helper')(config, __dirname);
 
-    config.set(helper.config);
+  config.set(helper.config);
 
-    return config;
+  return config;
 
 };

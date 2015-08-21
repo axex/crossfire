@@ -35,21 +35,11 @@ define(function (require, exports, module) {
 
   let Phone = React.createClass({
     propTypes: {
-      groupPhones: PropTypes.object,
-      name: PropTypes.string,
-      number: PropTypes.string,
-      active: PropTypes.bool,
-      duration: PropTypes.number
+      phone: PropTypes.object
     },
     render() {
       const { isDragging, connectDragSource } = this.props;
-
-
-      each(this.props.groupPhones, (gp) => {
-        console.log(gp);
-      })
-
-      return connectDragSource(
+      return  connectDragSource(
         <div className="phone-wrap">
           <p>Name: {this.props.name}</p>
 
@@ -67,6 +57,3 @@ define(function (require, exports, module) {
 
   module.exports = DragSource(Types.CARD, cardSource, collect)(Phone)
 });
-
-
-

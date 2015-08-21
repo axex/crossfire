@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-  	"build": "grunt",
+    "build": "grunt",
     "test": "karma start karma.conf.js",
     "test-debug": "karma start karma.conf.js --no-single-run --browsers Chrome"
   }
