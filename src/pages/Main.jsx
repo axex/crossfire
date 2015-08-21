@@ -1,6 +1,8 @@
 define(function(require, exports, module) {
 
-    var {React, Router} = require('module!../../../libReact/src/main');
+    var {React, Router} = require('module!../../../libReact/src/main'),
+          Menu = require('module!../../../libReact/src/main').react.Menu;
+
     var PhoneCard = require('jsx!../components/phone-card.jsx');
     var phones = require('../../data/phones');
     var reactDND = require('../vendors/react-dnd');
@@ -11,15 +13,35 @@ define(function(require, exports, module) {
         contextTypes: {
             module: React.PropTypes.object.isRequired
         },
-        render() {
-            return <div className="Bootstrap mymodule">
-                {
-                    phones.map(function (phone) {
-                        return <PhoneCard {...phone} />;
-                    })
-                }
-            </div>;
 
+        getInitialState(){
+            return {
+                form: {
+                    text: '',
+                    email: ''
+                }
+            }
+        },
+
+        onChange(form){
+            this.setState({form: form});
+        },
+        render() {
+          return <div className="Bootstrap mymodule">
+                <div className="layout-table Bootstrap">
+
+                    <Menu.Main collapsed="false">
+                        <Menu.MainItem to="callHandling" label="CallHandling" icon="_Phones"/>
+                    </Menu.Main>
+
+                    <div className="layout-column">
+
+                        <Router.RouteHandler {...this.state.form} onChange={this.onChange} />
+
+                    </div>
+
+                </div>
+            </div>;
         }
     });
 
