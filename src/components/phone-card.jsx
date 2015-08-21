@@ -1,9 +1,11 @@
 define(function(require, exports, module) {
+
+   'use strict'
     var {React} = require('module!../../../libReact/src/main');
     var PropTypes = React.PropTypes;
-    var {DragSource} = require('module!../vendors/react-dnd.js');
+    var {DragSource} = require('../vendors/react-dnd');
 
-    const Types = {
+    var Types = {
         CARD: 'card'
     };
 
@@ -11,7 +13,7 @@ define(function(require, exports, module) {
      * Specifies the drag source contract.
      * Only `beginDrag` function is required.
      */
-    const cardSource = {
+    var cardSource = {
         beginDrag(props) {
             // Return the data describing the dragged item
             return props;

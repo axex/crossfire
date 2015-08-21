@@ -1,17 +1,17 @@
 define(function(require, exports, module) {
 
     var {React, Router} = require('module!../../../libReact/src/main');
-    var PhoneCard = require('module!../components/phone-card');
+    var PhoneCard = require('jsx!../components/phone-card.jsx');
     var phones = require('../../data/phones');
+    var reactDND = require('../vendors/react-dnd');
+    var DragDropContext = reactDND.DragDropContext;
+    var HTML5Backend = reactDND.HTML5;
 
-    module.exports = React.createClass({
-
+    var mainHandler =  React.createClass({
         contextTypes: {
             module: React.PropTypes.object.isRequired
         },
-
         render() {
-
             return <div className="Bootstrap mymodule">
                 {
                     phones.map(function (phone) {
@@ -21,7 +21,7 @@ define(function(require, exports, module) {
             </div>;
 
         }
-
     });
 
+    module.exports = DragDropContext(HTML5Backend)(mainHandler);
 });

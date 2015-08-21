@@ -5,10 +5,11 @@ define(function(require, exports, module) {
     var {React, Router} = require('module!../../libReact/src/main'),
         {Route, DefaultRoute, Redirect} = Router,
         Main = require('jsx!./pages/Main.jsx'),
-        Def = require('jsx!./pages/Def.jsx');
+        Forwording = require('jsx!./pages/Forwording.jsx');
 
     return <Route handler={Main} path="/" name="index">
-        <Route name="def" handler={Def}/>
+        <Route name="forwording" handler={Forwording}/>
+        <Redirect from="/" to="forwording"/>
     </Route>;
 
 
