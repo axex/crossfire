@@ -1,11 +1,10 @@
 {
-  "name": "crossfire",
-  "version": "0.0.0",
+  "name": "Crossfire",
+  "version": "0.0.1",
   "description": "",
-  "main": "Gruntfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+  	"build": "grunt",
+    "test": "karma start karma.conf.js",
+    "test-debug": "karma start karma.conf.js --no-single-run --browsers Chrome"
+  }
 }
