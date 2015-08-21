@@ -1,9 +1,10 @@
 define(function(require, exports, module) {
 
-   'use strict'
+   'use strict';
+
     var {React} = require('module!../../../libReact/src/main');
     var PropTypes = React.PropTypes;
-    var {DragSource} = require('../vendors/react-dnd');
+    var {DragSource, DropTarget} = require('../vendors/react-dnd');
 
     var Types = {
         CARD: 'card'
@@ -13,50 +14,63 @@ define(function(require, exports, module) {
      * Specifies the drag source contract.
      * Only `beginDrag` function is required.
      */
-    var cardSource = {
+    const cardSource = {
         beginDrag(props) {
-            // Return the data describing the dragged item
-            return props;
+            return {id: props.id};
         }
     };
 
-    /**
-     * Specifies which props to inject into your component.
-     */
-    function collect(connect, monitor) {
-        return {
-            // Call this function inside render()
-            // to let React DnD handle the drag events:
-            connectDragSource: connect.dragSource(),
-            // You can ask the monitor about the current drag state:
-            isDragging: monitor.isDragging()
-        };
-    }
+    const cardTarget = {
+        hover(props, monitor) {
+            const draggedId = monitor.getItem().id;
 
-    let Phone = React.createClass({
+            if (draggedId !== props.id) {
+                props.moveCard(draggedId, props.id);
+            }
+        }
+    };
+
+    const dropTargetWrapper = DropTarget(Types.CARD, cardTarget, connect => ({
+        connectDropTarget: connect.dropTarget()
+    }));
+
+    const dragSourceWrapper = DragSource(Types.CARD, cardSource, (connect, monitor) => ({
+        connectDragSource: connect.dragSource(),
+        isDragging: monitor.isDragging()
+    }));
+
+    var PhoneCard = React.createClass({
+
         propTypes: {
             name: PropTypes.string.isRequired,
             number: PropTypes.string,
             active: PropTypes.bool.isRequired,
-            duration: PropTypes.number.isRequired
+            duration: PropTypes.number.isRequired,
+            connectDragSource: PropTypes.func.isRequired,
+            connectDropTarget: PropTypes.func.isRequired,
+            isDragging: PropTypes.bool.isRequired,
+            id: PropTypes.any.isRequired
         },
+
         render() {
 
-            const { isDragging, connectDragSource } = this.props;
+            const { isDragging, connectDragSource, connectDropTarget } = this.props;
+            let cardClassName = "phone-card " + (isDragging ? 'phone-card-grabbing' : '');
 
-            return connectDragSource(
-                <div className="phone-wrap">
+            return connectDragSource(connectDropTarget(
+                <div className={cardClassName}>
+                    <p>ID: {this.props.id}</p>
                     <p>Name: {this.props.name}</p>
                     <p>Number: {this.props.number}</p>
                     <p>isActive: {this.props.active}</p>
                     <p>Ring for: {this.props.duration}</p>
                     <p>{isDragging && ' (and I am being dragged now)'}</p>
                 </div>
-            );
+            ));
         }
     });
 
-    module.exports = DragSource(Types.CARD, cardSource, collect)(Phone)
+    module.exports = dropTargetWrapper(dragSourceWrapper(PhoneCard));
 });
 
 

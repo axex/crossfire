@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
 
-    //require('style!./css/main.less');
+    require('style!./css/main.less');
     require('module!../../libUI/src/main');
 
     var AbstractReactModule = require('module!../../libReact/src/main').AbstractReactModule;
