@@ -5,7 +5,7 @@ define(function (require, exports, module) {
   var {React} = require('module!../../../libReact/src/main');
   var PropTypes = React.PropTypes;
   var {DragSource, DropTarget} = require('../vendors/react-dnd');
-  var {Button, DropdownButton, Glyphicon, Input, MenuItem,ButtonToolbar} = require('module!../../../libReactBootstrap/src/main');
+  var {Button, DropdownButton, Glyphicon, Input, MenuItem,ButtonToolbar, Panel} = require('module!../../../libReactBootstrap/src/main');
 
   var Types = {
     CARD: 'card'
@@ -84,7 +84,7 @@ define(function (require, exports, module) {
       var isExistingPhone = isExistPhone(phone);
 
       return connectDragSource(connectDropTarget(
-        <div className={cardClassName}>
+        <Panel className={cardClassName}>
           <p>Name: {titleNode}</p>
 
           {isExistingPhone ? '' : <p>Number: {phone.phoneNumberInfo.formattedNumber}</p> }
@@ -96,7 +96,7 @@ define(function (require, exports, module) {
               <div className="ringCycleLabel">Ring for:</div>
               {renderRingCycleDropdownButton(phone.ringCycle, this.ringCycleOnSelect)}</ButtonToolbar>
           </p>
-        </div>
+        </Panel>
       ));
 
       function getTitleNode(phone) {
