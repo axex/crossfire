@@ -5,7 +5,7 @@ define(function (require, exports, module) {
   var {React} = require('module!../../../libReact/src/main');
   var PropTypes = React.PropTypes;
   var {DragSource, DropTarget} = require('../vendors/react-dnd');
-  var {Button, DropdownButton, Glyphicon, Input, MenuItem,ButtonToolbar, Panel, Badge} = require('module!../../../libReactBootstrap/src/main');
+  var {DropdownButton, Glyphicon, Input, MenuItem,ButtonToolbar, Panel, Badge} = require('module!../../../libReactBootstrap/src/main');
   var CardMixins = require('jsx!./card-mixins.jsx');
 
   var Types = {
@@ -89,19 +89,18 @@ define(function (require, exports, module) {
       let cardClassName = "phone-card " + (isDragging ? 'phone-card-grabbing' : '');
 
 
+      function getNumberNode(phone) {
+        var isNumberEditable = self.isOtherPhone(phone) || ['Home', 'Work', 'Mobile'].indexOf(phone.type) > -1;
+        var numberNode;
+        var isExistingPhone = self.isExistPhone(phone);
 
-        function getNumberNode (phone) {
-            var isNumberEditable = self.isOtherPhone(phone) || ['Home', 'Work', 'Mobile'].indexOf(phone.type) > -1;
-            var numberNode;
-            var isExistingPhone = self.isExistPhone(phone);
-
-            if (!isExistingPhone) {
-                numberNode = isNumberEditable ?
-                    <Input type="text" defaultValue={phone.phoneNumberInfo.formattedNumber} /> :
-                    <p>{phone.phoneNumberInfo.formattedNumber}</p>;
-            }
-            return numberNode;
+        if (!isExistingPhone) {
+          numberNode = isNumberEditable ?
+            <Input type="text" defaultValue={phone.phoneNumberInfo.formattedNumber}/> :
+            <p>{phone.phoneNumberInfo.formattedNumber}</p>;
         }
+        return numberNode;
+      }
 
 
       return connectDragSource(connectDropTarget(
@@ -111,7 +110,8 @@ define(function (require, exports, module) {
 
           <div className="inlineEle groupPhoneInfo">
             {
-              phones.map(function (phone) {
+              phones.map(function (phone, idx) {
+                cardClassName = idx == phones.length - 1 ? cardClassName + ' phone-card-last' : cardClassName;
                 return <div className={cardClassName}>
                   <p>{self.getTitleNode(phone)}</p>
                   {getNumberNode(phone)}

@@ -205,7 +205,6 @@ define(function (require, exports, module) {
         <div className={phoneListClass}>
           {
             this.state.groupPhones.map((gp, index) => {
-              console.log(gp);
               if (gp.group) {
                 return <GroupCard index={index} id={gp.id} key={gp.id} phones={gp.items} moveCard={this.moveCard}
                                   findCard={this.findCard}/>;
