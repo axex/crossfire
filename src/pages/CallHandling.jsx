@@ -136,8 +136,10 @@ define(function (require, exports, module) {
                     {
                         this.state.groupPhones.map((gp) => {
                             console.log(gp);
-                            if (gp.length == 1) {
-                                return <PhoneCard phone={gp[0]} moveCard={this.moveCard} findCard={this.findCard}/>;
+                            if (gp.group) {
+
+                            } else {
+                                return <PhoneCard phone={gp.items[0]} moveCard={this.moveCard} findCard={this.findCard}/>;
                             }
                         })
                     }
