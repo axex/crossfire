@@ -103,6 +103,25 @@ define(function (require, exports, module) {
           });
       },
 
+    addOtherUserPhone(otherUserPhone) {
+      var groupPhones = this.state.groupPhones;
+      var len = groupPhones.length;
+      var otherUserPhones = this.state.otherUserPhones.filter(function(phone) {
+            return phone.phoneNumberInfo.number != otherUserPhone.phoneNumberInfo.number;
+      });
+
+      groupPhones.push({
+        id: len,
+        group: false,
+        items: [otherUserPhone]
+      });
+      this.setState({
+        otherUserPhones : otherUserPhones,
+        groupPhones: groupPhones,
+        forwardedPhonesNum: this.state.forwardedPhonesNum + 1
+      });
+    },
+
     componentWillMount() {
       if (!RC.Config.loggedMailboxId)
         RC.Config.load(()=> {
@@ -177,7 +196,7 @@ define(function (require, exports, module) {
 
       return <div>
         <CrossfireButtonToolbar setOrderClassFunc={this.state.setOrderClassFunc} addOtherPhone={this.addOtherPhone} forwardedPhonesNum = {this.state.forwardedPhonesNum}/>
-        <OtherUserPhoneList otherUserPhones={this.state.otherUserPhones}/>
+        <OtherUserPhoneList otherUserPhones={this.state.otherUserPhones} addOtherUserPhone = {this.addOtherUserPhone}/>
 
         <div className={phoneListClass}>
           {

@@ -10,6 +10,10 @@ define(function (require, exports, module) {
       otherUserPhones: React.PropTypes.object
     },
 
+    addOtherPhone (otherUserPhone) {
+      this.props.addOtherUserPhone(otherUserPhone);
+    },
+
     render(){
       var otherUserPhones = this.props.otherUserPhones || [];
       var hasOtherUserPhones = otherUserPhones.length > 0;
@@ -20,7 +24,7 @@ define(function (require, exports, module) {
           </Alert>
           <ListGroup>
             {otherUserPhones.map((otherUserPhone)=> {
-              return (<ListGroupItem href='#link1'>{otherUserPhone.phoneNumberInfo.name + otherUserPhone.phoneNumberInfo.formattedNumber}</ListGroupItem>);
+              return (<ListGroupItem onClick={this.addOtherPhone.bind(this, otherUserPhone)}>{otherUserPhone.phoneNumberInfo.name + otherUserPhone.phoneNumberInfo.formattedNumber}</ListGroupItem>);
             })}
           </ListGroup></div>
       } else {
