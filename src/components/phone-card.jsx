@@ -11,7 +11,6 @@ define(function (require, exports, module) {
         CARD: 'card'
     };
 
-
     const cardSource = {
         beginDrag(props) {
             return {
@@ -57,21 +56,10 @@ define(function (require, exports, module) {
     var PhoneCard = React.createClass({
 
         propTypes: {
-            name: PropTypes.string.isRequired,
-            number: PropTypes.string,
-            active: PropTypes.bool.isRequired,
-            duration: PropTypes.number.isRequired,
             connectDragSource: PropTypes.func.isRequired,
             connectDropTarget: PropTypes.func.isRequired,
             isDragging: PropTypes.bool.isRequired,
-            id: PropTypes.any.isRequired,
-            phone: PropTypes.object.isRequired,
             lastOne: PropTypes.bool
-        },
-
-        getInitialState() {
-            return {
-            };
         },
 
         render() {

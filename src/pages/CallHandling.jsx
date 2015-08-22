@@ -1,9 +1,7 @@
 define(function (require, exports, module) {
 
-    var {React, Router} = require('module!../../../libReact/src/main'),
-        {TabbedArea, TabPane} = require('module!../../../libReactBootstrap/src/main');
+    var {React, Router} = require('module!../../../libReact/src/main');
     var PhoneCard = require('jsx!../components/phone-card.jsx');
-    var reactDND = require('../vendors/react-dnd');
     var OtherUserPhoneList = require('jsx!../components/OtherUserPhoneList.jsx');
     var CrossfireButtonToolbar = require('jsx!../components/crossfireButtonToolbar.jsx');
 
@@ -17,7 +15,6 @@ define(function (require, exports, module) {
             return {
                 otherUserPhones: [],
                 groupPhones: [],
-                key: 1,
                 additionalPhoneListClass : '',
                 setOrderClassFunc: ((className)=>{
                     this.state.additionalPhoneListClass = className;
@@ -43,18 +40,15 @@ define(function (require, exports, module) {
             var draggedCard = foundCard.card;
             var draggedIndex = foundCard.index;
 
-            this.setState(React.addons.update(this.state, {
+            this.state = React.addons.update(this.state, {
                 groupPhones: {
                     $splice: [
                         [draggedIndex, 1],
                         [atIndex, 0, draggedCard]
                     ]
                 }
-            }));
-        },
+            });
 
-        handleSelect(key) {
-            this.state.key = key;
             this.setState(this.state);
         },
 
@@ -139,7 +133,7 @@ define(function (require, exports, module) {
                             if (gp.group) {
 
                             } else {
-                                return <PhoneCard phone={gp.items[0]} moveCard={this.moveCard} findCard={this.findCard}/>;
+                                return <PhoneCard id={gp.id} key={gp.id} phone={gp.items[0]} moveCard={this.moveCard} findCard={this.findCard}/>;
                             }
                         })
                     }
