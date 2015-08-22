@@ -33,27 +33,44 @@ define(function (require, exports, module) {
     };
   }
 
-  let Phone = React.createClass({
+  module.exports = React.createClass({
+
     propTypes: {
-      phone: PropTypes.object
+      phone: PropTypes.object.isRequired
     },
+
+    getInitialState() {
+      return {
+        data: {
+          phones: {},
+          key: 1
+        }
+      };
+
+      function titleEditable() {
+
+      }
+    },
+
     render() {
       const { isDragging, connectDragSource } = this.props;
-      return  connectDragSource(
-        <div className="phone-wrap">
-          <p>Name: {this.props.name}</p>
+      return connectDragSource(
+        <div>
+          <div className="phone-wrap">
+            <p>Name: {this.props.name}</p>
 
-          <p>Number: {this.props.number}</p>
+            <p>Number: {this.props.number}</p>
 
-          <p>isActive: {this.props.active}</p>
+            <p>isActive: {this.props.active}</p>
 
-          <p>Ring for: {this.props.duration}</p>
+            <p>Ring for: {this.props.duration}</p>
 
-          <p>{isDragging && ' (and I am being dragged now)'}</p>
+            <p>{isDragging && ' (and I am being dragged now)'}</p>
+          </div>
         </div>
-      );
+      )
     }
   });
 
-  module.exports = DragSource(Types.CARD, cardSource, collect)(Phone)
+  module.exports = DragSource(Types.CARD, cardSource, collect)(module.exports);
 });

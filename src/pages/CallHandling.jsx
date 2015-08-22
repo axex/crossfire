@@ -2,7 +2,7 @@ define(function (require, exports, module) {
 
   var {React, Router} = require('module!../../../libReact/src/main'),
     {TabbedArea, TabPane} = require('module!../../../libReactBootstrap/src/main');
-  var PhonesWrap = require('jsx!../components/PhonesWrap.jsx');
+  var PhoneCard = require('jsx!../components/PhoneCard.jsx');
   var reactDND = require('../vendors/react-dnd');
 
   module.exports = React.createClass({
@@ -34,53 +34,58 @@ define(function (require, exports, module) {
     },
 
     loadForwardPhones(wrapper) {
-      wrapper.send("rules.getHoursRule", {
-          loadAllPhones: true,
-          mid: RC.Config.loggedMailboxId,
-          rid: '400019274008',
-          isCompany: false
-        },
-        (response) => {
-          var phones = response.rule.phones;
+      var mailboxId = RC.Config.loggedMailboxId;
+      var businessHoursRule;
+      wrapper.send("rules.listHoursRules", {
+        mid: mailboxId
+      },(response) => {
+        businessHoursRule = response.rules.filter(function(rule) {
+          return rule.type == "BusinessHours";
+        });
+        wrapper.send("rules.getHoursRule", {
+            loadAllPhones: true,
+            mid: mailboxId,
+            rid: businessHoursRule[0].id,
+            isCompany: false
+          },
+          (response) => {
+            var phones = response.rule.phones;
 
 
-          var forwardPhones = {};
-          var otherUserPhones = [];
-          var disabledDelay = 10000;
+            var forwardPhones = {};
+            var otherUserPhones = [];
+            var disabledDelay = 10000;
 
 
-          Array.each(phones, function (phone) {
+            Array.each(phones, function (phone) {
 
-            if (phone.type == 'PhoneLine' && !phone.ownedByThisMailbox && !phone.enabled) {
-              otherUserPhones.push(phone);
-            } else {
-              var ringDelay = (phone.enabled ? phone.ringDelay : ++disabledDelay);
-              if (!(ringDelay in forwardPhones)) {
-                forwardPhones[ringDelay] = [phone];
+              if (phone.type == 'PhoneLine' && !phone.ownedByThisMailbox && !phone.enabled) {
+                otherUserPhones.push(phone);
               } else {
-                forwardPhones[ringDelay].push(phone);
+                var ringDelay = (phone.enabled ? phone.ringDelay : ++disabledDelay);
+                if (!(ringDelay in forwardPhones)) {
+                  forwardPhones[ringDelay] = [phone];
+                } else {
+                  forwardPhones[ringDelay].push(phone);
+                }
+
               }
 
+            });
+            var groupPhones = [];
+            for (var i in forwardPhones) {
+              groupPhones.push(forwardPhones[i]);
             }
 
-          });
-          var groupPhones = [];
-          for (var i in forwardPhones) {
-            groupPhones.push(forwardPhones[i]);
-          }
+            this.state.data.phoneWrap = {
+              groupPhones: groupPhones,
+              otherUserPhones: otherUserPhones
+            };
 
-          this.state.data.phoneWrap = {
-            groupPhones: groupPhones,
-            otherUserPhones: otherUserPhones
-          };
+            this.setState(this.state.data);
 
-          this.setState(this.state.data);
-
-        },
-        null,
-        true,
-        true);
-
+          },null,true,true);
+      },null,true,true);
     },
 
     render() {
@@ -92,7 +97,13 @@ define(function (require, exports, module) {
             <div>Sequentially canvas</div>
 
             <div className="Bootstrap mymodule">
-                <PhonesWrap phoneWrap={this.state.data.phoneWrap} />;
+                {
+                  this.state.phoneWrap && this.state.phoneWrap.groupPhones.map((gp) => {
+                    if(gp.length == 1) {
+                      return <PhoneCard phone={gp[0]}/>;
+                    }
+                  })
+                }
             </div>
 
 
