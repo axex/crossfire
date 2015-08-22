@@ -19,7 +19,8 @@ define(function (require, exports, module) {
         setOrderClassFunc: ((className)=> {
           this.state.additionalPhoneListClass = className;
           this.setState(this.state);
-        })
+        }),
+        forwardedPhonesNum : 0
       };
     },
 
@@ -111,6 +112,7 @@ define(function (require, exports, module) {
               }
             });
             this.setState({
+              forwardedPhonesNum: phones.length - otherUserPhones.length,
               groupPhones: groupPhones,
               otherUserPhones: otherUserPhones
             });
@@ -124,7 +126,7 @@ define(function (require, exports, module) {
       phoneListClass += this.state.additionalPhoneListClass;
 
       return <div>
-        <CrossfireButtonToolbar setOrderClassFunc={this.state.setOrderClassFunc}/>
+        <CrossfireButtonToolbar setOrderClassFunc={this.state.setOrderClassFunc} forwardedPhonesNum = {this.state.forwardedPhonesNum}/>
         <OtherUserPhoneList otherUserPhones={this.state.otherUserPhones}/>
 
         <div className={phoneListClass}>
