@@ -98,7 +98,7 @@ define(function (require, exports, module) {
           <TabPane eventKey={1} tab='Sequentially'>
               <OtherUserPhoneList otherUserPhones = {this.state.data.phoneWrap.otherUserPhones}/>
 
-            <div className="Bootstrap mymodule">
+            <div className="Bootstrap CallHandling-phone-list">
                 {
                   this.state.data.phoneWrap.groupPhones.map((gp) => {
                     if(gp.length == 1) {
