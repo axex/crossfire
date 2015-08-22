@@ -15,7 +15,7 @@ define(function (require, exports, module) {
       return {
         otherUserPhones: [],
         groupPhones: [],
-        additionalPhoneListClass: '',
+        additionalPhoneListClass: 'displayColumn',
         setOrderClassFunc: ((className)=> {
           this.state.additionalPhoneListClass = className;
           this.setState(this.state);
