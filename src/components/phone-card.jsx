@@ -5,7 +5,7 @@ define(function (require, exports, module) {
   var {React} = require('module!../../../libReact/src/main');
   var PropTypes = React.PropTypes;
   var {DragSource, DropTarget} = require('../vendors/react-dnd');
-  var {Button, DropdownButton, Glyphicon, Input, MenuItem,ButtonToolbar, Panel} = require('module!../../../libReactBootstrap/src/main');
+  var {Button, DropdownButton, Glyphicon, Input, MenuItem,ButtonToolbar, Panel, Badge} = require('module!../../../libReactBootstrap/src/main');
 
   var Types = {
     CARD: 'card'
@@ -75,13 +75,14 @@ define(function (require, exports, module) {
 
     render() {
 
-      const { phone, isDragging, connectDragSource, connectDropTarget } = this.props;
+      const { index, phone, isDragging, connectDragSource, connectDropTarget } = this.props;
       let cardClassName = "phone-card " + (isDragging ? 'phone-card-grabbing' : '');
 
       this.props.lastOne && (cardClassName = cardClassName + " last-card");
 
       var titleNode = getTitleNode(phone);
       var isExistingPhone = isExistPhone(phone);
+
 
       return connectDragSource(connectDropTarget(
         <Panel className={cardClassName}>
@@ -96,6 +97,7 @@ define(function (require, exports, module) {
               <div className="ringCycleLabel">Ring for:</div>
               {renderRingCycleDropdownButton(phone.ringCycle, this.ringCycleOnSelect)}</ButtonToolbar>
           </p>
+          <Badge className="phoneCardOrdinal">{index + 1}</Badge>
         </Panel>
       ));
 

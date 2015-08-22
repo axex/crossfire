@@ -131,11 +131,11 @@ define(function (require, exports, module) {
 
         <div className={phoneListClass}>
           {
-            this.state.groupPhones.map((gp) => {
+            this.state.groupPhones.map((gp, index) => {
               console.log(gp);
               if (gp.group) {
               } else {
-                return <PhoneCard id={gp.id} key={gp.id} phone={gp.items[0]} moveCard={this.moveCard}
+                return <PhoneCard index = {index} id={gp.id} key={gp.id} phone={gp.items[0]} moveCard={this.moveCard}
                                   findCard={this.findCard}/>
               }
             })
