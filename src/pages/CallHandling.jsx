@@ -5,6 +5,7 @@ define(function (require, exports, module) {
     var PhoneCard = require('jsx!../components/phone-card.jsx');
     var reactDND = require('../vendors/react-dnd');
     var OtherUserPhoneList = require('jsx!../components/OtherUserPhoneList.jsx');
+    var CrossfireButtonToolbar = require('jsx!../components/crossfireButtonToolbar.jsx');
 
     module.exports = React.createClass({
 
@@ -114,27 +115,20 @@ define(function (require, exports, module) {
         },
 
         render() {
-            return (
-                <TabbedArea activeKey={this.state.key} onSelect={this.handleSelect}>
-                    <TabPane eventKey={1} tab='Sequentially'>
-                        <OtherUserPhoneList otherUserPhones={this.state.otherUserPhones}/>
-
-                        <div className="Bootstrap CallHandling-phone-list">
-                            {
-                                this.state.groupPhones.map((gp) => {
-                                    console.log(gp);
-                                    if (gp.length == 1) {
-                                        return <PhoneCard phone={gp[0]} moveCard={this.moveCard} findCard={this.findCard}/>;
-                                    }
-                                })
+            return <div>
+                <CrossfireButtonToolbar/>
+                <OtherUserPhoneList otherUserPhones={this.state.otherUserPhones}/>
+                <div className="Bootstrap CallHandling-phone-list">
+                    {
+                        this.state.groupPhones.map((gp) => {
+                            console.log(gp);
+                            if (gp.length == 1) {
+                                return <PhoneCard phone={gp[0]} moveCard={this.moveCard} findCard={this.findCard}/>;
                             }
-                        </div>
-
-
-                    </TabPane>
-                    <TabPane eventKey={2} tab='Simultaneously'>Simultaneously canvas</TabPane>
-                </TabbedArea>
-            );
+                        })
+                    }
+                </div>
+            </div>;
         }
 
     });
