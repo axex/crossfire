@@ -13,7 +13,6 @@ define(function (require, exports, module) {
     render(){
       var otherUserPhones = this.props.otherUserPhones || [];
       var hasOtherUserPhones = otherUserPhones.length > 0;
-
       if (hasOtherUserPhones) {
         return <div className="Bootstrap otherUserPhonesPanel">
           <Alert bsStyle='warning'>
@@ -21,7 +20,7 @@ define(function (require, exports, module) {
           </Alert>
           <ListGroup>
             {otherUserPhones.map((otherUserPhone)=> {
-              return (<ListGroupItem href='#link1'>{otherUserPhone.phoneNumberInfo.formattedNumber}</ListGroupItem>);
+              return (<ListGroupItem href='#link1'>{otherUserPhone.phoneNumberInfo.name + otherUserPhone.phoneNumberInfo.formattedNumber}</ListGroupItem>);
             })}
           </ListGroup></div>
       } else {
