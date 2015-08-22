@@ -91,6 +91,7 @@ define(function (require, exports, module) {
       return connectDragSource(connectDropTarget(
         <Panel className="group-phone-card">
           <Badge className="phoneCardOrdinal">{index + 1}</Badge>
+          <Glyphicon glyph='paperclip' className="groupIconPosition"/>
 
           <div className="inlineEle groupPhoneInfo">
             {
