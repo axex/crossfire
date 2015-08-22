@@ -1,15 +1,12 @@
 define(function (require, exports, module) {
 
     var {React, Router} = require('module!../../../libReact/src/main');
+    var Menu = require('module!../../../libReact/src/main').react.Menu;
     var PhoneCard = require('jsx!../components/phone-card.jsx');
     var phones = require('../../data/phones');
     var reactDND = require('../vendors/react-dnd');
     var DragDropContext = reactDND.DragDropContext;
     var HTML5Backend = reactDND.HTML5;
-
-    const style = {
-        width: 400
-    };
 
     var mainHandler = React.createClass({
         contextTypes: {
@@ -31,33 +28,6 @@ define(function (require, exports, module) {
             });
         },
 
-        findCard(id) {
-            var cards = this.state.phones;
-            var card = cards.filter(function (c) {
-                return c.id === id;
-            })[0];
-
-            return {
-                card: card,
-                index: cards.indexOf(card)
-            };
-        },
-
-        moveCard(id, atIndex) {
-            var foundCard = this.findCard(id);
-            var draggedCard = foundCard.card;
-            var draggedIndex = foundCard.index;
-
-            this.setState(React.addons.update(this.state, {
-                phones: {
-                    $splice: [
-                        [draggedIndex, 1],
-                        [atIndex, 0, draggedCard]
-                    ]
-                }
-            }));
-        },
-
         getInitialState(){
             return {}
         },
@@ -67,7 +37,7 @@ define(function (require, exports, module) {
         },
 
         render() {
-            return <div className="Bootstrap mymodule" style={style}>
+            return <div className="Bootstrap mymodule">
                 <div className="layout-table Bootstrap">
                     <Menu.Main collapsed="false">
                         <Menu.MainItem to="callHandling" label="CallHandling" icon="_Phones"/>

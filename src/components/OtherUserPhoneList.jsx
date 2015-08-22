@@ -3,7 +3,7 @@ define(function(require, exports, module){
   var {React} = require('module!../../../libReact/src/main'),
       {ListGroup, ListGroupItem, Alert} = require('module!../../../libReactBootstrap/src/main');
 
-  require('style!../css/main.less');
+  //require('style!../css/main.less');
 
   module.exports = React.createClass({
 

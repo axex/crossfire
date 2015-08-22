@@ -3,7 +3,7 @@ define(function (require, exports, module) {
   var {React, Router} = require('module!../../../libReact/src/main'),
     {TabbedArea, TabPane} = require('module!../../../libReactBootstrap/src/main');
   var PhoneCard = require('jsx!../components/PhoneCard.jsx');
-    require('style!../css/main.less');
+    //require('style!../css/main.less');
   var reactDND = require('../vendors/react-dnd');
     var OtherUserPhoneList = require('jsx!../components/OtherUserPhoneList.jsx');
 

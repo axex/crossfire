@@ -5,7 +5,6 @@ define(function (require, exports, module) {
     var {React} = require('module!../../../libReact/src/main');
     var PropTypes = React.PropTypes;
     var {DragSource, DropTarget} = require('../vendors/react-dnd');
-    var {Button, ButtonLink, Glyphicon, Input, Label} = require('module!../../../libReactBootstrap/src/main');
 
     var Types = {
         CARD: 'card'
@@ -54,7 +53,7 @@ define(function (require, exports, module) {
         isDragging: monitor.isDragging()
     }));
 
-    var PhoneCard = React.createClass({
+    var GroupCard = React.createClass({
 
         propTypes: {
             name: PropTypes.string.isRequired,
@@ -64,36 +63,7 @@ define(function (require, exports, module) {
             connectDragSource: PropTypes.func.isRequired,
             connectDropTarget: PropTypes.func.isRequired,
             isDragging: PropTypes.bool.isRequired,
-            id: PropTypes.any.isRequired,
-            phone: PropTypes.object.isRequired,
-            lastOne: PropTypes.bool
-        },
-
-        getInitialState() {
-            return {
-                data: {
-                    phone: this.props.phone,
-                    key: 1,
-                    titleEditable: titleEditable(this.props.phone),
-                    isExistPhone: isExistPhone(this.props.phone),
-                    existPhoneLabel: getExistPhoneLabel(this.props.phone)
-                }
-            };
-
-            function titleEditable(phone) {
-                if (phone.type.startsWith("Other")) {
-                    return true;
-                }
-                return false;
-            }
-
-            function isExistPhone(phone) {
-                return phone.type == "PhoneLine";
-            }
-
-            function getExistPhoneLabel(phone) {
-                return phone.firstName + " " + phone.lastName + " Existing Phone";
-            }
+            id: PropTypes.any.isRequired
         },
 
         render() {
@@ -101,23 +71,8 @@ define(function (require, exports, module) {
             const { id, isDragging, connectDragSource, connectDropTarget } = this.props;
             let cardClassName = "phone-card " + (isDragging ? 'phone-card-grabbing' : '');
 
-            this.props.lastOne && (cardClassName = cardClassName + " last-card");
-
-              var titleNode;
-              var phone = this.state.data.phone;
-
-              if (this.state.data.isExistPhone) {
-                titleNode = <h5> {this.state.data.existPhoneLabel}</h5>
-              } else if (this.state.data.titleEditable) {
-                titleNode = <Input type="text"/>
-              } else {
-                titleNode = <h5>{phone.type}</h5>;//<Label value={phone.type}/>;
-              }
-
             return connectDragSource(connectDropTarget(
                 <div className={cardClassName}>
-
-                    <p>Editable: {this.state.data.titleEditable} |isExistPhone: {this.state.data.isExistPhone}</p>
                     <p>ID: {this.props.id}</p>
 
                     <p>Name: {this.props.name}</p>
@@ -135,8 +90,5 @@ define(function (require, exports, module) {
         }
     });
 
-    module.exports = dropTargetDecorator(dragSourceDecorator(PhoneCard));
+    module.exports = dropTargetDecorator(dragSourceDecorator(GroupCard));
 });
-
-
-
