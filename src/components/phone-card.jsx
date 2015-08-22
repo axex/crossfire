@@ -71,67 +71,51 @@ define(function (require, exports, module) {
 
         getInitialState() {
             return {
-                data: {
-                    phone: this.props.phone,
-                    key: 1,
-                    titleEditable: titleEditable(this.props.phone),
-                    isExistPhone: isExistPhone(this.props.phone),
-                    existPhoneLabel: getExistPhoneLabel(this.props.phone)
-                }
             };
+        },
 
-            function titleEditable(phone) {
-                if (phone.type.startsWith("Other")) {
-                    return true;
+        render() {
+
+            const { phone, isDragging, connectDragSource, connectDropTarget } = this.props;
+            let cardClassName = "phone-card " + (isDragging ? 'phone-card-grabbing' : '');
+
+            this.props.lastOne && (cardClassName = cardClassName + " last-card");
+
+            var titleNode = getTitleNode(phone);
+            var isExistingPhone = isExistPhone(phone);
+
+            return connectDragSource(connectDropTarget(
+                <div className={cardClassName}>
+                    <p>Name: {titleNode}</p>
+
+                    {isExistingPhone ? '' : <p>Number: {phone.phoneNumberInfo.formattedNumber}</p> }
+
+                    <p>isActive: {phone.enabled ? 'true' : 'false'}</p>
+
+                    <p>Ring for: {phone.ringCycle * 5} sec.</p>
+                </div>
+            ));
+
+            function getTitleNode (phone) {
+                var titleNode;
+
+                if (isExistPhone(phone)) {
+                    titleNode = phone.firstName + " " + phone.lastName + " Existing Phone";
+                } else if (isOtherPhone(phone)) {
+                    titleNode = <span className="title-editable">{phone.phoneNumberInfo.name}</span>;
+                } else {
+                    titleNode = phone.type;
                 }
-                return false;
+                return titleNode;
+            }
+
+            function isOtherPhone(phone) {
+                return phone.type.startsWith("Other");
             }
 
             function isExistPhone(phone) {
                 return phone.type == "PhoneLine";
             }
-
-            function getExistPhoneLabel(phone) {
-                return phone.firstName + " " + phone.lastName + " Existing Phone";
-            }
-        },
-
-        render() {
-
-            const { id, isDragging, connectDragSource, connectDropTarget } = this.props;
-            let cardClassName = "phone-card " + (isDragging ? 'phone-card-grabbing' : '');
-
-            this.props.lastOne && (cardClassName = cardClassName + " last-card");
-
-              var titleNode;
-              var phone = this.state.data.phone;
-
-              if (this.state.data.isExistPhone) {
-                titleNode = <h5> {this.state.data.existPhoneLabel}</h5>
-              } else if (this.state.data.titleEditable) {
-                titleNode = <Input type="text"/>
-              } else {
-                titleNode = <h5>{phone.type}</h5>;//<Label value={phone.type}/>;
-              }
-
-            return connectDragSource(connectDropTarget(
-                <div className={cardClassName}>
-
-                    <p>Editable: {this.state.data.titleEditable} |isExistPhone: {this.state.data.isExistPhone}</p>
-                    <p>ID: {this.props.id}</p>
-
-                    <p>Name: {this.props.name}</p>
-
-                    <p>Number: {this.props.number}</p>
-
-                    <p>isActive: {this.props.active}</p>
-
-                    <p>Ring for: {this.props.duration}</p>
-
-                    <p>{isDragging && ' (and I am being dragged now)'}</p>
-
-                </div>
-            ));
         }
     });
 
