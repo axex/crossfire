@@ -4,6 +4,7 @@ define(function (require, exports, module) {
     {TabbedArea, TabPane} = require('module!../../../libReactBootstrap/src/main');
   var PhoneCard = require('jsx!../components/PhoneCard.jsx');
   var reactDND = require('../vendors/react-dnd');
+    var OtherUserPhoneList = require('jsx!../components/OtherUserPhoneList.jsx');
 
   module.exports = React.createClass({
 
@@ -14,7 +15,10 @@ define(function (require, exports, module) {
     getInitialState() {
       return {
         data: {
-          phones: {},
+            phoneWrap: {
+                otherUserPhones: [],
+                groupPhones: []
+            },
           key: 1
         }
       };
@@ -82,7 +86,7 @@ define(function (require, exports, module) {
               otherUserPhones: otherUserPhones
             };
 
-            this.setState(this.state.data);
+            this.setState(this.state);
 
           },null,true,true);
       },null,true,true);
@@ -92,19 +96,18 @@ define(function (require, exports, module) {
       return (
         <TabbedArea activeKey={this.state.data.key} onSelect={this.handleSelect}>
           <TabPane eventKey={1} tab='Sequentially'>
-            <h1>something</h1>
-
-            <div>Sequentially canvas</div>
+              <OtherUserPhoneList otherUserPhones = {this.state.data.phoneWrap.otherUserPhones}/>
 
             <div className="Bootstrap mymodule">
                 {
-                  this.state.phoneWrap && this.state.phoneWrap.groupPhones.map((gp) => {
+                  this.state.data.phoneWrap.groupPhones.map((gp) => {
                     if(gp.length == 1) {
                       return <PhoneCard phone={gp[0]}/>;
                     }
                   })
                 }
             </div>
+
 
 
           </TabPane>
