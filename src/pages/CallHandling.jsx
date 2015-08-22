@@ -17,7 +17,12 @@ define(function (require, exports, module) {
             return {
                 otherUserPhones: [],
                 groupPhones: [],
-                key: 1
+                key: 1,
+                additionalPhoneListClass : '',
+                setOrderClassFunc: ((className)=>{
+                    this.state.additionalPhoneListClass = className;
+                    this.setState(this.state);
+                })
             };
         },
 
@@ -115,10 +120,13 @@ define(function (require, exports, module) {
         },
 
         render() {
+            var phoneListClass = "Bootstrap CallHandling-phone-list ";
+            phoneListClass += this.state.additionalPhoneListClass;
+
             return <div>
-                <CrossfireButtonToolbar/>
+                <CrossfireButtonToolbar setOrderClassFunc={this.state.setOrderClassFunc}/>
                 <OtherUserPhoneList otherUserPhones={this.state.otherUserPhones}/>
-                <div className="Bootstrap CallHandling-phone-list">
+                <div className={phoneListClass}>
                     {
                         this.state.groupPhones.map((gp) => {
                             console.log(gp);
