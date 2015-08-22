@@ -5,6 +5,8 @@ define(function (require, exports, module) {
     var {React} = require('module!../../../libReact/src/main');
     var PropTypes = React.PropTypes;
     var {DragSource, DropTarget} = require('../vendors/react-dnd');
+    var {Button, DropdownButton, Glyphicon, Input, MenuItem,ButtonToolbar, Panel, Badge} = require('module!../../../libReactBootstrap/src/main');
+    var CardMixins = require('jsx!./card-mixins.jsx');
 
     var Types = {
         CARD: 'card'
@@ -54,12 +56,8 @@ define(function (require, exports, module) {
     }));
 
     var GroupCard = React.createClass({
-
+        mixins: [CardMixins],
         propTypes: {
-            name: PropTypes.string.isRequired,
-            number: PropTypes.string,
-            active: PropTypes.bool.isRequired,
-            duration: PropTypes.number.isRequired,
             connectDragSource: PropTypes.func.isRequired,
             connectDropTarget: PropTypes.func.isRequired,
             isDragging: PropTypes.bool.isRequired,
@@ -67,25 +65,25 @@ define(function (require, exports, module) {
         },
 
         render() {
+            var self = this;
 
-            const { id, isDragging, connectDragSource, connectDropTarget } = this.props;
+            const { index, phones, isDragging, connectDragSource, connectDropTarget } = this.props;
             let cardClassName = "phone-card " + (isDragging ? 'phone-card-grabbing' : '');
 
             return connectDragSource(connectDropTarget(
-                <div className={cardClassName}>
-                    <p>ID: {this.props.id}</p>
-
-                    <p>Name: {this.props.name}</p>
-
-                    <p>Number: {this.props.number}</p>
-
-                    <p>isActive: {this.props.active}</p>
-
-                    <p>Ring for: {this.props.duration}</p>
-
-                    <p>{isDragging && ' (and I am being dragged now)'}</p>
-
-                </div>
+                <Panel className="group-phone-card">
+                    {
+                        phones.map(function (phone) {
+                            return <div className={cardClassName}>
+                                <p>Name: {self.getTitleNode(phone)}</p>
+                                {self.isExistPhone(phone) ? '' : <p>Number: {phone.phoneNumberInfo.formattedNumber}</p> }
+                            </div>
+                        })
+                    }
+                    <p>isActive: true</p>
+                    <p>Ring For: {4 * 5} secs.</p>
+                    <Badge className="phoneCardOrdinal">{index + 1}</Badge>
+                </Panel>
             ));
         }
     });

@@ -2,6 +2,7 @@ define(function (require, exports, module) {
 
   var {React, Router} = require('module!../../../libReact/src/main');
   var PhoneCard = require('jsx!../components/phone-card.jsx');
+  var GroupCard = require('jsx!../components/group-card.jsx');
   var OtherUserPhoneList = require('jsx!../components/OtherUserPhoneList.jsx');
   var CrossfireButtonToolbar = require('jsx!../components/crossfireButtonToolbar.jsx');
 
@@ -134,8 +135,9 @@ define(function (require, exports, module) {
             this.state.groupPhones.map((gp, index) => {
               console.log(gp);
               if (gp.group) {
+                  return <GroupCard index={index} id={gp.id} key={gp.id} phones={gp.items} moveCard={this.moveCard} findCard={this.findCard} />;
               } else {
-                return <PhoneCard index = {index} id={gp.id} key={gp.id} phone={gp.items[0]} moveCard={this.moveCard}
+                return <PhoneCard index={index} id={gp.id} key={gp.id} phone={gp.items[0]} moveCard={this.moveCard}
                                   findCard={this.findCard}/>
               }
             })
