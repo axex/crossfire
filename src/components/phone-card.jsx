@@ -65,7 +65,8 @@ define(function (require, exports, module) {
         },
         getInitialState() {
             return {
-                ringCycle: this.props.phone.ringCycle
+        ringCycle: this.props.phone.ringCycle,
+        active: this.props.phone.enabled
             };
         },
 
@@ -75,7 +76,13 @@ define(function (require, exports, module) {
             this.setState(this.state);
         },
 
-        render() {
+    activeOnChange(item) {
+      this.state.active = item.target.checked;
+      this.props.phone.enabled = item.target.checked;
+      this.setState(this.state);
+    },
+
+    render() {
 
             const { index, phone, isDragging, connectDragSource, connectDropTarget } = this.props;
             let cardClassName = "phone-card " + (isDragging ? 'phone-card-grabbing' : '');
@@ -87,21 +94,47 @@ define(function (require, exports, module) {
 
             return connectDragSource(connectDropTarget(
                 <Panel className={cardClassName}>
-                    <p>Name: {titleNode}</p>
+          <div>Name: {titleNode}</div>
 
-                    {isExistingPhone ? '' : <p>Number: {phone.phoneNumberInfo.formattedNumber}</p> }
+          {isExistingPhone ? '' : <p>Number: {phone.phoneNumberInfo.formattedNumber}</p> }
 
-                    <p>isActive: {phone.enabled ? 'true' : 'false'}</p>
+          <div>Active: <input type='checkbox' checked={this.state.active ? 'true' : '' }
+                              onChange={this.activeOnChange} className='phone-card-checkbox'/>
+          </div>
 
-                    <p>
+          <div>
                         <ButtonToolbar>
-                            <span className="ringCycleLabel">Ring for:</span>
+                            <div className="ringCycleLabel">Ring for:</div>
                             {renderRingCycleDropdownButton(phone.ringCycle, this.ringCycleOnSelect)}</ButtonToolbar>
-                    </p>
+          </div>
                     <Badge className="phoneCardOrdinal">{index + 1}</Badge>
                 </Panel>
             ));
+      function renderActiveCheckBox(phone) {
 
+        return <Input type='checkbox' checked={phone.enabled ? 'true' : ''}/>;
+      }
+
+      function getTitleNode(phone) {
+        var titleNode;
+
+        if (isExistPhone(phone)) {
+          titleNode = phone.firstName + " " + phone.lastName + " Existing Phone";
+        } else if (isOtherPhone(phone)) {
+          titleNode = <span className="title-editable">{phone.phoneNumberInfo.name}</span>;
+        } else {
+          titleNode = phone.type;
+        }
+        return titleNode;
+      }
+
+      function isOtherPhone(phone) {
+        return phone.type.startsWith("Other");
+      }
+
+      function isExistPhone(phone) {
+        return phone.type == "PhoneLine";
+      }
             function renderRingCycleDropdownButton(current, ringCycleOnSelect) {
 
                 return (
