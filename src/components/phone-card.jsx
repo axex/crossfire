@@ -137,7 +137,7 @@ define(function (require, exports, module) {
         }
 
         function getItemsTitle(i) {
-          return (i * 5) + "secs";
+          return (i * 5) + " secs";
         }
       }
     }

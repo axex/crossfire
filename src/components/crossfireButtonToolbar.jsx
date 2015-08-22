@@ -1,7 +1,7 @@
-define(function(require, exports, module){
+define(function (require, exports, module) {
 
   var {React} = require('module!../../../libReact/src/main'),
-      {ButtonToolbar, Button} = require('module!../../../libReactBootstrap/src/main');
+    {ButtonToolbar, Button} = require('module!../../../libReactBootstrap/src/main');
 
   module.exports = React.createClass({
 
@@ -26,9 +26,7 @@ define(function(require, exports, module){
           <Button bsSize='small' onClick={this.changeListDisplayClass.bind(this, false)}>Simultaneously</Button>
         </ButtonToolbar>
       </div>
-
     }
-
   });
 
 });

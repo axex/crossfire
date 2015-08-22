@@ -47,7 +47,6 @@ define(function (require, exports, module) {
                         <Router.RouteHandler {...this.state.form} onChange={this.onChange}/>
                     </div>
                 </div>
-                ;
             </div>
         }
     });
