@@ -109,7 +109,13 @@ define(function (require, exports, module) {
                         for (var i in forwardPhones) {
                             groupPhones.push(forwardPhones[i]);
                         }
-
+                        groupPhones = groupPhones.map(function(groupPhone, index) {
+                            return {
+                                id : index,
+                                group: groupPhone.length > 1,
+                                items: groupPhone
+                            }
+                        });
                         this.setState({
                             groupPhones: groupPhones,
                             otherUserPhones: otherUserPhones
