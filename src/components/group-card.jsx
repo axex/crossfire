@@ -81,6 +81,9 @@ define(function (require, exports, module) {
         active: true
       };
     },
+    activeOnChange(item) {
+      alert("Inactive and unGroup todo...");
+    },
 
     render() {
       var self = this;
@@ -121,7 +124,7 @@ define(function (require, exports, module) {
           </div>
 
           <div className="inlineEle middleAlign">
-            <div>Active: <input type='checkbox' checked={this.state.active ? 'true' : '' } readOnly='true'
+            <div>Active: <input type='checkbox' checked={this.state.active ? 'true' : '' } onChange={this.activeOnChange}
                                 onChange={this.activeOnChange} className='phone-card-checkbox'/>
             </div>
             <div>
