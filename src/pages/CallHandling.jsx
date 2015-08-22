@@ -3,8 +3,8 @@ define(function (require, exports, module) {
   var {React, Router} = require('module!../../../libReact/src/main');
   var PhoneCard = require('jsx!../components/phone-card.jsx');
   var GroupCard = require('jsx!../components/group-card.jsx');
-  var OtherUserPhoneList = require('jsx!../components/OtherUserPhoneList.jsx');
-  var CrossfireButtonToolbar = require('jsx!../components/crossfireButtonToolbar.jsx');
+  var OtherUserPhoneList = require('jsx!../components/other-user-phone-list.jsx');
+  var CrossfireButtonToolbar = require('jsx!../components/crossfire-button-toolbar.jsx');
 
   module.exports = React.createClass({
 
