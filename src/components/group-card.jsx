@@ -88,6 +88,22 @@ define(function (require, exports, module) {
       const { index, phones, isDragging, connectDragSource, connectDropTarget } = this.props;
       let cardClassName = "phone-card " + (isDragging ? 'phone-card-grabbing' : '');
 
+
+
+        function getNumberNode (phone) {
+            var isNumberEditable = self.isOtherPhone(phone) || ['Home', 'Work', 'Mobile'].indexOf(phone.type) > -1;
+            var numberNode;
+            var isExistingPhone = self.isExistPhone(phone);
+
+            if (!isExistingPhone) {
+                numberNode = isNumberEditable ?
+                    <Input type="text" defaultValue={phone.phoneNumberInfo.formattedNumber} /> :
+                    <p>{phone.phoneNumberInfo.formattedNumber}</p>;
+            }
+            return numberNode;
+        }
+
+
       return connectDragSource(connectDropTarget(
         <Panel className="group-phone-card">
           <Badge className="phoneCardOrdinal">{index + 1}</Badge>
@@ -97,8 +113,8 @@ define(function (require, exports, module) {
             {
               phones.map(function (phone) {
                 return <div className={cardClassName}>
-                  <p>Name: {self.getTitleNode(phone)}</p>
-                  {self.isExistPhone(phone) ? '' : <p>Number: {phone.phoneNumberInfo.formattedNumber}</p> }
+                  <p>{self.getTitleNode(phone)}</p>
+                  {getNumberNode(phone)}
                 </div>
               })
             }

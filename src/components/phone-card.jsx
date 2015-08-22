@@ -92,11 +92,21 @@ define(function (require, exports, module) {
       var titleNode = this.getTitleNode(phone);
       var isExistingPhone = this.isExistPhone(phone);
 
+        var isNumberEditable = this.isOtherPhone(phone) || ['Home', 'Work', 'Mobile'].indexOf(phone.type) > -1;
+
+        var numberNode;
+
+        if (!isExistingPhone) {
+            numberNode = isNumberEditable ?
+                <Input type="text" defaultValue={phone.phoneNumberInfo.formattedNumber} /> :
+                <p>{phone.phoneNumberInfo.formattedNumber}</p>;
+        }
+
       return connectDragSource(connectDropTarget(
         <Panel className={cardClassName}>
-          <div>Name: {titleNode}</div>
+          <div>{titleNode}</div>
 
-          {isExistingPhone ? '' : <p>Number: {phone.phoneNumberInfo.formattedNumber}</p> }
+          {numberNode}
 
           <div>Active: <input type='checkbox' checked={this.state.active ? 'true' : '' }
                               onChange={this.activeOnChange} className='phone-card-checkbox'/>
@@ -113,27 +123,6 @@ define(function (require, exports, module) {
       function renderActiveCheckBox(phone) {
 
         return <Input type='checkbox' checked={phone.enabled ? 'true' : ''}/>;
-      }
-
-      function getTitleNode(phone) {
-        var titleNode;
-
-        if (isExistPhone(phone)) {
-          titleNode = phone.firstName + " " + phone.lastName + " Existing Phone";
-        } else if (isOtherPhone(phone)) {
-          titleNode = <span className="title-editable">{phone.phoneNumberInfo.name}</span>;
-        } else {
-          titleNode = phone.type;
-        }
-        return titleNode;
-      }
-
-      function isOtherPhone(phone) {
-        return phone.type.startsWith("Other");
-      }
-
-      function isExistPhone(phone) {
-        return phone.type == "PhoneLine";
       }
 
       function renderRingCycleDropdownButton(current, ringCycleOnSelect) {
