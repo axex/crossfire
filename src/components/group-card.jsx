@@ -72,17 +72,23 @@ define(function (require, exports, module) {
 
             return connectDragSource(connectDropTarget(
                 <Panel className="group-phone-card">
-                    {
-                        phones.map(function (phone) {
-                            return <div className={cardClassName}>
-                                <p>Name: {self.getTitleNode(phone)}</p>
-                                {self.isExistPhone(phone) ? '' : <p>Number: {phone.phoneNumberInfo.formattedNumber}</p> }
-                            </div>
-                        })
-                    }
-                    <p>isActive: true</p>
-                    <p>Ring For: {4 * 5} secs.</p>
                     <Badge className="phoneCardOrdinal">{index + 1}</Badge>
+                    <div className="inlineEle groupPhoneInfo">
+                        {
+                            phones.map(function (phone) {
+                                return <div className={cardClassName}>
+                                    <p>Name: {self.getTitleNode(phone)}</p>
+                                    {self.isExistPhone(phone) ? '' : <p>Number: {phone.phoneNumberInfo.formattedNumber}</p> }
+                                </div>
+                            })
+                        }
+                    </div>
+
+                    <div className="inlineEle middleAlign">
+                        <p>isActive: true</p>
+                        <p>Ring For: {4 * 5} secs.</p>
+                    </div>
+
                 </Panel>
             ));
         }
