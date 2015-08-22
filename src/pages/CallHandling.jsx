@@ -54,6 +54,55 @@ define(function (require, exports, module) {
       this.setState(this.state);
     },
 
+      addOtherPhone() {
+          var groupPhones = this.state.groupPhones;
+          var len = groupPhones.length;
+
+          groupPhones.push({
+              id: len,
+              group: false,
+              items: [
+                  {
+                      addDigitsToCallerId: null,
+                      askPIN: false,
+                      dNIS: null,
+                      deviceExists: false,
+                      deviceType: 0,
+                      digitsForCallerId: "",
+                      editable: false,
+                      enabled: true,
+                      firstName: "",
+                      forwardPhoneId: 0,
+                      forwarding: true,
+                      lastName: "",
+                      mailboxId: 0,
+                      orderBy: 5,
+                      ownedByThisMailbox: false,
+                      phoneId: 400427111008,
+                      phoneLineId: 0,
+                      phoneNumberInfo: {
+                          alternate: false,
+                          details: null,
+                          formattedNumber: "44 (234) 567-8900",
+                          name: "new Phone",
+                          number: "+4412345678900"
+                      },
+                      pin: "",
+                      playMailboxName: false,
+                      ringCycle: 4,
+                      ringDelay: 16,
+                      skipFindMeMenu: true,
+                      type: "Other2"
+                  }
+
+              ]
+          });
+          this.setState({
+              groupPhones: groupPhones,
+              forwardedPhonesNum: this.state.forwardedPhonesNum + 1
+          });
+      },
+
     componentWillMount() {
       if (!RC.Config.loggedMailboxId)
         RC.Config.load(()=> {
@@ -127,7 +176,7 @@ define(function (require, exports, module) {
       phoneListClass += this.state.additionalPhoneListClass;
 
       return <div>
-        <CrossfireButtonToolbar setOrderClassFunc={this.state.setOrderClassFunc} forwardedPhonesNum = {this.state.forwardedPhonesNum}/>
+        <CrossfireButtonToolbar setOrderClassFunc={this.state.setOrderClassFunc} addOtherPhone={this.addOtherPhone} forwardedPhonesNum = {this.state.forwardedPhonesNum}/>
         <OtherUserPhoneList otherUserPhones={this.state.otherUserPhones}/>
 
         <div className={phoneListClass}>

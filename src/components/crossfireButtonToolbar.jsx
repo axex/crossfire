@@ -26,7 +26,7 @@ define(function (require, exports, module) {
           <Button bsSize='small' onClick={this.changeListDisplayClass.bind(this, false)}>Simultaneously</Button>
         </ButtonToolbar>
         <ButtonToolbar className="Bootstrap actionBtnGroup">
-          <Button bsSize='small' bsStyle='primary'>
+          <Button bsSize='small' bsStyle='primary' onClick={this.props.addOtherPhone}>
             <Glyphicon glyph="plus" /> Add Phone
           </Button>
           <Button bsSize='small' bsStyle='success'>
