@@ -31,19 +31,28 @@ define(function (require, exports, module) {
             });
         },
 
-        moveCard(id, afterId) {
-            var phones = this.state.phones;
+        findCard(id) {
+            var cards = this.state.phones;
+            var card = cards.filter(function (c) {
+                return c.id === id;
+            })[0];
 
-            const card = phones.filter(p => p.id === id)[0];
-            const afterCard = phones.filter(c => c.id === afterId)[0];
-            const cardIndex = phones.indexOf(card);
-            const afterIndex = phones.indexOf(afterCard);
+            return {
+                card: card,
+                index: cards.indexOf(card)
+            };
+        },
+
+        moveCard(id, atIndex) {
+            var foundCard = this.findCard(id);
+            var draggedCard = foundCard.card;
+            var draggedIndex = foundCard.index;
 
             this.setState(React.addons.update(this.state, {
                 phones: {
                     $splice: [
-                        [cardIndex, 1],
-                        [afterIndex, 0, card]
+                        [draggedIndex, 1],
+                        [atIndex, 0, draggedCard]
                     ]
                 }
             }));

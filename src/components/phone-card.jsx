@@ -13,25 +13,42 @@ define(function (require, exports, module) {
 
     const cardSource = {
         beginDrag(props) {
-            return {id: props.id};
-        }
-    };
-
-    const cardTarget = {
-        hover(props, monitor) {
-            const draggedId = monitor.getItem().id;
-
-            if (draggedId !== props.id) {
-                props.moveCard(draggedId, props.id);
+            return {
+                id: props.id,
+                originalIndex: props.findCard(props.id).index
+            };
+        },
+        endDrag (props, monitor) {
+            var item = monitor.getItem();
+            var droppedId = item.id;
+            var originalIndex = item.originalIndex;
+            var didDrop = monitor.didDrop();
+            if (!didDrop) {
+                props.moveCard(droppedId, originalIndex);
             }
         }
     };
 
-    const dropTargetWrapper = DropTarget(Types.CARD, cardTarget, connect => ({
+    const cardTarget = {
+        canDrop: function canDrop() {
+            return true;
+        },
+        hover(props, monitor) {
+            const draggedId = monitor.getItem().id;
+
+            if (draggedId !== props.id) {
+                var overCard = props.findCard(props.id);
+                var overIndex = overCard.index;
+                props.moveCard(draggedId, overIndex);
+            }
+        }
+    };
+
+    const dropTargetDecorator = DropTarget(Types.CARD, cardTarget, connect => ({
         connectDropTarget: connect.dropTarget()
     }));
 
-    const dragSourceWrapper = DragSource(Types.CARD, cardSource, (connect, monitor) => ({
+    const dragSourceDecorator = DragSource(Types.CARD, cardSource, (connect, monitor) => ({
         connectDragSource: connect.dragSource(),
         isDragging: monitor.isDragging()
     }));
@@ -51,7 +68,7 @@ define(function (require, exports, module) {
 
         render() {
 
-            const { isDragging, connectDragSource, connectDropTarget } = this.props;
+            const { id, isDragging, connectDragSource, connectDropTarget } = this.props;
             let cardClassName = "phone-card " + (isDragging ? 'phone-card-grabbing' : '');
 
             return connectDragSource(connectDropTarget(
@@ -67,12 +84,13 @@ define(function (require, exports, module) {
                     <p>Ring for: {this.props.duration}</p>
 
                     <p>{isDragging && ' (and I am being dragged now)'}</p>
+
                 </div>
             ));
         }
     });
 
-    module.exports = dropTargetWrapper(dragSourceWrapper(PhoneCard));
+    module.exports = dropTargetDecorator(dragSourceDecorator(PhoneCard));
 });
 
 
