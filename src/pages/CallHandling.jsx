@@ -21,8 +21,11 @@ define(function (require, exports, module) {
           this.state.additionalPhoneListClass = className;
           this.setState(this.state);
         }),
-        forwardedPhonesNum : 0
+        forwardedPhonesNum: 0
       };
+    },
+    onSaveFunc() {
+      console.log(this.state);
     },
 
     findCard(id) {
@@ -54,54 +57,54 @@ define(function (require, exports, module) {
       this.setState(this.state);
     },
 
-      addOtherPhone() {
-          var groupPhones = this.state.groupPhones;
-          var len = groupPhones.length;
+    addOtherPhone() {
+      var groupPhones = this.state.groupPhones;
+      var len = groupPhones.length;
 
-          groupPhones.push({
-              id: len,
-              group: false,
-              items: [
-                  {
-                      addDigitsToCallerId: null,
-                      askPIN: false,
-                      dNIS: null,
-                      deviceExists: false,
-                      deviceType: 0,
-                      digitsForCallerId: "",
-                      editable: false,
-                      enabled: true,
-                      firstName: "",
-                      forwardPhoneId: 0,
-                      forwarding: true,
-                      lastName: "",
-                      mailboxId: 0,
-                      orderBy: 5,
-                      ownedByThisMailbox: false,
-                      phoneId: 400427111008,
-                      phoneLineId: 0,
-                      phoneNumberInfo: {
-                          alternate: false,
-                          details: null,
-                          formattedNumber: "44 (234) 567-8900",
-                          name: "new Phone",
-                          number: "+4412345678900"
-                      },
-                      pin: "",
-                      playMailboxName: false,
-                      ringCycle: 4,
-                      ringDelay: 16,
-                      skipFindMeMenu: true,
-                      type: "Other2"
-                  }
+      groupPhones.push({
+        id: len,
+        group: false,
+        items: [
+          {
+            addDigitsToCallerId: null,
+            askPIN: false,
+            dNIS: null,
+            deviceExists: false,
+            deviceType: 0,
+            digitsForCallerId: "",
+            editable: false,
+            enabled: true,
+            firstName: "",
+            forwardPhoneId: 0,
+            forwarding: true,
+            lastName: "",
+            mailboxId: 0,
+            orderBy: 5,
+            ownedByThisMailbox: false,
+            phoneId: 400427111008,
+            phoneLineId: 0,
+            phoneNumberInfo: {
+              alternate: false,
+              details: null,
+              formattedNumber: "44 (234) 567-8900",
+              name: "new Phone",
+              number: "+4412345678900"
+            },
+            pin: "",
+            playMailboxName: false,
+            ringCycle: 4,
+            ringDelay: 16,
+            skipFindMeMenu: true,
+            type: "Other2"
+          }
 
-              ]
-          });
-          this.setState({
-              groupPhones: groupPhones,
-              forwardedPhonesNum: this.state.forwardedPhonesNum + 1
-          });
-      },
+        ]
+      });
+      this.setState({
+        groupPhones: groupPhones,
+        forwardedPhonesNum: this.state.forwardedPhonesNum + 1
+      });
+    },
 
     addOtherUserPhone(otherUserPhone) {
       var groupPhones = this.state.groupPhones;
@@ -195,7 +198,8 @@ define(function (require, exports, module) {
       phoneListClass += this.state.additionalPhoneListClass;
 
       return <div>
-        <CrossfireButtonToolbar setOrderClassFunc={this.state.setOrderClassFunc} addOtherPhone={this.addOtherPhone} forwardedPhonesNum = {this.state.forwardedPhonesNum}/>
+        <CrossfireButtonToolbar setOrderClassFunc={this.state.setOrderClassFunc} addOtherPhone={this.addOtherPhone}
+                                forwardedPhonesNum={this.state.forwardedPhonesNum} onSaveFunc={this.onSaveFunc}/>
         <OtherUserPhoneList otherUserPhones={this.state.otherUserPhones} addOtherUserPhone = {this.addOtherUserPhone}/>
 
         <div className={phoneListClass}>
@@ -203,7 +207,8 @@ define(function (require, exports, module) {
             this.state.groupPhones.map((gp, index) => {
               console.log(gp);
               if (gp.group) {
-                  return <GroupCard index={index} id={gp.id} key={gp.id} phones={gp.items} moveCard={this.moveCard} findCard={this.findCard} />;
+                return <GroupCard index={index} id={gp.id} key={gp.id} phones={gp.items} moveCard={this.moveCard}
+                                  findCard={this.findCard}/>;
               } else {
                 return <PhoneCard index={index} id={gp.id} key={gp.id} phone={gp.items[0]} moveCard={this.moveCard}
                                   findCard={this.findCard}/>
